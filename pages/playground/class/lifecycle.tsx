@@ -25,11 +25,14 @@ export default class PlayGround extends React.Component<any, StateType> {
   }
 
   UNSAFE_componentWillUpdate() {
+    // tu kiem tra xem moi state, state nao thay doi
+    // de thuc thi logic phu hop
     console.log('componentWillUpdate');
+    // userId => call server => data phu thuoc vao userId
   }
 
-  componentWillReceiveProps() {
-    
+  UNSAFE_componentWillReceiveProps() {
+
   }
 
   render() {
@@ -37,10 +40,13 @@ export default class PlayGround extends React.Component<any, StateType> {
       <div className="container">
         <h1>Play ground - Life Cycle - React Hooks</h1>
         <button onClick={() => {
-          const { counter } = this.state;
-
-          this.setState({ counter: counter + 1 });
+          this.setState((prevState) => {
+            return {
+              counter: prevState.counter + 1
+            }
+          });
         }}>Counter Add</button>
+        <p>{this.state.counter}</p>
       </div>
     )
   }

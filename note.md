@@ -52,3 +52,15 @@
 + componentWillMount(): chạy khi state thay đổi
 + componentWillUpdate(): kiểm tra mỗi lần userId thay đổi => call server => data phục thuộc vào userID
 + componentWillReceiveProps: lắng nghe sự thay đổi của props truyền vào
+- 15 Cách sử dụng State Hooks và so sánh
++ state class component: có thể truyền vào partialState, 
++ prevState: state trước
++ useState: nên tách riêng state ra
++ nếu sử dụng function truyền vào hàm setState => state component sẽ return về object, state hooks => return về giá trị
+- 16 Tìm hiểu về useEffect trong Hooks - Phần 1
++ class component: constructor: được chạy 1 lần duy nhất khi component được gắn vào HTML
++ function component: mỗi lần render lại => state không thay đổi => do lấy giá trị cũ
++ học cách mô phỏng lại constructor trong function component
++ componentWillUnmount <=> khi component bij remove khỏi cấu trúc DOM
++ componentDidMount <=> chạy 1 lần duy nhất sau khi render lần đầu tiên
++ componentWillUpdate cũng sẽ lắng nghe bất kể state nào thay đổi => dư thừa
