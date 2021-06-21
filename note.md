@@ -64,3 +64,20 @@
 + componentWillUnmount <=> khi component bij remove khỏi cấu trúc DOM
 + componentDidMount <=> chạy 1 lần duy nhất sau khi render lần đầu tiên
 + componentWillUpdate cũng sẽ lắng nghe bất kể state nào thay đổi => dư thừa
+- 18 Tìm hiểu về useMemo
++ dùng cho biểu đồ, đồ thị, chart, editor
++ useMemo sẽ cache lại dữ liệu => nếu user có thay đổi dữ liệu => sẽ tính toán lại dữ liệu mới => user k thay đổi dữ liệu => fullName luôn lấy từ giá trị cũ => k tính toán lại
++ function return gì => useMemo return cái đó => giúp tăng hiệu suất chương trình => k nên lạm dụng => khi tính toán phức tạp
++ tip sử dụng useMemo k đúng với chức năng của nó
++ tất cả useEffect chạy ở client còn constructor chạy ở cá client và server
+- 19 Tìm hiểu về useCallback
++ useMemo trả về 1 value, useCallback trả về 1 function
++ mỗi lần depandencies thay đổi thì function trong useCallback sẽ được khởi tạo lại
+- 20 Tìm hiểu về useRef
++ dùng để tham chiếu đến 1 DOM nào đó
++ return về 1 object có thể thay đổi được (mutable), chứa thuộc tính current
++ luôn tồn tại trong suốt chu kỳ sống của component (k bị thay đổi sau mỗi lần re-render, thay đổi trực tiếp nó được)
+- 21 Tìm hiểu Custom Hooks và useConstructor
++ vì current của useRef có thể tồn tại suốt chu kỳ sống của component => xây dựng constructor
++ tạo custom hook (useConstructor): nhận vào 1 function callback, function này chỉ được gọi duy nhất
++ không biết cách khai báo => học trong thư viện của react
