@@ -1,3 +1,16 @@
+- 02 So sánh SSR, CSR và demo
++ gửi requet => server => trả về => user
+++ CSR: => HTML(không có nội dung, đính kèm file javascript của React) => web browser phân tích HTML => nhiều thành viên khác cần tải về => tải thêm file JS (giao diện chưa có nội dung, đang loading, k có ý nghĩa với những con BOT) => web browser thực thi JS của React => render UI => loading dừng => thấy UI
++++ ưu điểm:
+++++ việc rendering tài nguyên trang web sẽ nhanh hơn sau lần load đầu tiên (chỉ cần render những phần giao diện cần thiết)
+++++ giúp tăng trải nhiệm người dùng sau lần load đầu
+++++ tương thích với nhiều thư viện, framework JS
+++++ giảm tải phía server (vì chỉ cần load phần nào có sự thay đổi => k cần load lại trang)
++++ nhược điểm:
+++++ lần đầu load mất nhiều thời gian (vì toàn bộ tài nguyên được quản lý bởi JS, giao diện sẽ không có ý nghĩa với user, con BOT)
+++++ vấn đề SEO => k tối ưu do k có nội dung
+++ SSR: => HTML(có file JS, đã sãn sàng được render, có ý nghĩa với user, BOT) => render UI => JS sẽ thực thi tiếp => render tiếp nội dung khác => trở thành dạng client side
+*** có thể kết hợp CSR VÀ SSR
 - start project: npm run dev
 - Thư mục node_modules và .next sau khi npm install sẽ được sinh ra
 - account github: phinguyenuit10@gmail.com
@@ -81,3 +94,25 @@
 + vì current của useRef có thể tồn tại suốt chu kỳ sống của component => xây dựng constructor
 + tạo custom hook (useConstructor): nhận vào 1 function callback, function này chỉ được gọi duy nhất
 + không biết cách khai báo => học trong thư viện của react
+- 23 Solution 01
++ React.FC đã khai báo sẵn children
+- 24 Solution 02
++ ở server không tồn tại biến window và document
++ useEffect chỉ chạy sau khi render
++ phía server chạy trước khi render
++ useMemo chạy trước khi render (vừa chạy phía server và client)
++ useRef chỉ dùng cho trường hợp biến cố định
++ setClassName(className + " show"); => sai cách => vì trong useEffect ta dùng state nào thì xem nó như biến phụ thuộc => đưa className vào trong dependencies
+- 25 Solution 03
++ dấu & trong file scss sẽ nối với class trước
+
+----------------------------------------------
+
+- 4. Data Fetching và Server API
++ 1. Khái niệm API là gì?
+++ giúp ứng dụng của mình tương tác với ứng dụng của người khác, thư viện ở bên ngoài, hệ thống backend
++ 3. Khái niệm Fetch Data trong NextJs
+++ javascrip thuần => version es6 trở lên => hỗ trợ fetch => cũng là 1 API
+++ CSR: gọi API ở phía client
+++ làm sao biết? code nào gọi ở phía server, có dữ liệu sẵn ở phía server
+*** chú ý kiến thức về bất đồng bộ
