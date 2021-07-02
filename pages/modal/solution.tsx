@@ -7,16 +7,21 @@ export default function () {
 
   return (
     <div className="container">
-      <ModalSolution
-        isVisible={true}
-        onOk={() => setOpenModal(true)}
-        onCancel={() => setOpenModal(false)}
-      >
-        <h2>Demo Modal</h2>
-        <form>
-          <input type="text" />
-        </form>
-      </ModalSolution>
+      {
+        openModal && (
+          <ModalSolution
+            isVisible={true}
+            onOk={() => setOpenModal(true)}
+            onCancel={() => setOpenModal(false)}
+          >
+            <h2>Demo Modal</h2>
+            <form>
+              <input type="text" />
+            </form>
+          </ModalSolution>
+
+        )
+      }
       <button
         onClick={() => setOpenModal(true)}
       >

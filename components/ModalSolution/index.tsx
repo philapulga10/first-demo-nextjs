@@ -5,20 +5,34 @@ import './modal.scss';
 type ModalProps = {
   isVisible?: boolean,
   renderFooter?: () => JSX.Element,
-  onOk: () => void,
-  onCancel: () => void
+  onOk?: () => void,
+  onCancel?: () => void,
+  isRenderHeader?: boolean,
+  isRenderCloseIcon?: boolean,
+  btnCancelText?: string,
+  btnOkText?: string
 };
 
 let CLASS_DEFAULT = "tcl-modal__wrapper";
 
 const ModalSolution: React.FC<ModalProps> = ({
   children,
-  isVisible,
+  isVisible: isVisibleOutside,
   onOk,
   onCancel,
-  renderFooter
+  renderFooter,
+  isRenderHeader,
+  isRenderCloseIcon,
+  btnCancelText,
+  btnOkText,
 }) => {
   const [className, setClassName] = useState(CLASS_DEFAULT);
+  const [isVisible, setVisible] = useState(false);
+
+  // nếu không đã động tới isVisibleOutside thì dùng isVisible mặc định
+  useEffect(() => {
+    setVisible(isVisibleOutside);
+  }, [isVisibleOutside]);
 
   useEffect(() => {
     if (isVisible === true) {
@@ -34,12 +48,29 @@ const ModalSolution: React.FC<ModalProps> = ({
   }, [isVisible]);
 
   useEffect(() => {
-    document.addEventListener('keyup', (event) => {
+    const handler = (event) => {
+      console.log('handler', event.which);
+
       if (event.which === 27) {
         onCancel();
       }
-    });
+    };
+
+    document.addEventListener('keyup', handler);
+
+    return () => {
+      // component will unmount
+      document.removeEventListener('keyup', handler);
+    };
   }, []);
+
+  const _onCancel = (): void => {
+    if (onCancel) {
+      onCancel();
+    } else {
+      setVisible(false);
+    }
+  }
 
   const _renderFooter = (): JSX.Element => {
     if (renderFooter) {
@@ -48,21 +79,31 @@ const ModalSolution: React.FC<ModalProps> = ({
 
     return (
       <>
-        <button onClick={onCancel} className="tcl-modal__cancel">Cancel</button>
-        <button onClick={onOk} className="tcl-modal__ok">Ok</button>
+        <button onClick={_onCancel} className="tcl-modal__cancel">{btnCancelText}</button>
+        <button onClick={onOk} className="tcl-modal__ok">{btnOkText}</button>
       </>
     );
   }
 
+  if (isVisible === false) {
+    return null;
+  }
+
   return (
     <div className={className}>
-      <div onClick={onCancel} className="tcl-mask"></div>
+      <div onClick={_onCancel} className="tcl-mask"></div>
       <div className="tcl-dialog">
         <div className="tcl-modal__content">
-          <div className="tcl-modal__header">
-            Title demo
-            <button onClick={onCancel} className="tcl-modal__close">X</button>
-          </div>
+          {
+            isRenderHeader && (
+              <div className="tcl-modal__header">
+                Title demo
+                {
+                  isRenderCloseIcon && <button onClick={_onCancel} className="tcl-modal__close">X</button>
+                }
+              </div>
+            )
+          }
           <div className="tcl-modal__body">{children}</div>
           <div className="tcl-modal__footer">
             {
@@ -74,5 +115,14 @@ const ModalSolution: React.FC<ModalProps> = ({
     </div>
   )
 }
+
+ModalSolution.defaultProps = {
+  // nếu không truyền mặc định isVisibale = false
+  isVisible: false,
+  isRenderHeader: true,
+  isRenderCloseIcon: true,
+  btnCancelText: 'Cancel',
+  btnOkText: 'Ok'
+};
 
 export default ModalSolution;
