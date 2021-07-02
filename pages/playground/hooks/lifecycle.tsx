@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
 
-import Button from '../../../component/button';
+import Button from '../../../components/Button';
 import useConstructor from '../../../custom-hooks/useConstructor';
 
 let isRun = false;

@@ -82,7 +82,7 @@
   + useMemo sẽ cache lại dữ liệu => nếu user có thay đổi dữ liệu => sẽ tính toán lại dữ liệu mới => user k thay đổi dữ liệu => fullName luôn lấy từ giá trị cũ => k tính toán lại
   + function return gì => useMemo return cái đó => giúp tăng hiệu suất chương trình => k nên lạm dụng => khi tính toán phức tạp
   + tip sử dụng useMemo k đúng với chức năng của nó
-  + tất cả useEffect chạy ở client còn constructor chạy ở cá client và server
+  + tất cả useEffect chạy ở client còn constructor chạy ở cả client và server
 - 19 Tìm hiểu về useCallback
   + useMemo trả về 1 value, useCallback trả về 1 function
   + mỗi lần depandencies thay đổi thì function trong useCallback sẽ được khởi tạo lại
@@ -140,3 +140,10 @@
       +++ sự khác nhau giữa getServerSideProps và getIntialProps:
         ++++ getIntialProps: khi quay lại trang cũ thì có call API
         ++++ getServerSideProps: khi quay lại trang cũ, NextJS gửi 1 API request đến server của NextJS => chạy lại getServerSideProps => return JSON chứa kết quả được trả về từ getServerSideProps => JSON được sử dụng để render page => bảo mật hơn => che dấu được API bên dưới
+  + 7. Static generation và getStaticProps
+    ++ khi chạy ở môi trường dev getServerSideProps và getStaticProps giống nhau
+    ++ trong môi trường production: getStaticProps (chỉ fetch data tại thời điểm build thôi), getServerSideProps (fetch data trong mỗi lần truy cập => gọi server => server gọi lên heroku)
+    ++ chỉ fetch API 1 lần duy nhất trong thời điểm build code (npm build) => sau khi build đưa lên môi trường production => khi truy cập vào như 1 static page (HTML tĩnh: toàn bộ dữ liệu đã có sẵn) => dữ liệu đã có rồi không gọi API nữa (được cached lại)
+    ++ ưu điểm của getStaticProps (static generation): nếu load lại trang sẽ rất nhanh vì đã lưu lại
+    ++ nhược điểm: nếu dữ liệu của API đó thay đổi trên Heroku => ứng dụng sẽ không cập nhật được dữ liệu mới => nếu muốn có dữ liệu mới phải build lại
+    *** nếu cần 1 lượng truy xuất nhiều trong vòng 1, 2 ngày (tạo web tĩnh cho chiến dịch ngắn hạn) nên sử dụng getStaticProps, nếu muốn trang ổn định duy trì liên tục (nội dung thay đổi liên tục) nên dùng getServerSideProps hoặc getInitialProps. VD: người dùng sửa tiêu đề bài viết phía server => getServerSideProps => gọi lên Heroku liên tục => nhận được sự thay đổi => còn getStaticProps chỉ có data cũ => xem xét để lựa chọn cho page
